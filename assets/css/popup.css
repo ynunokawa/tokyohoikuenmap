@@ -1,0 +1,36 @@
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
+    background: #333;
+    color: #eee;
+}
+.leaflet-popup-content-wrapper {
+    border-radius: 0;
+    padding: 0;
+}
+.leaflet-popup-content {
+    margin: 0;
+    min-width: 250px;
+    max-height: 250px;
+}
+.leaflet-popup-content-title > h4 {
+    font-size: 1.3em;
+    margin: 0;
+    padding: 15px;
+    background: rgba(33,145,210,0.7);
+}
+.leaflet-popup-content-description {
+    max-height: 200px;
+    overflow: auto;
+}
+.leaflet-popup-content-description > div {
+    padding: 5px 15px 0 15px;
+    word-break: break-all;
+}
+.leaflet-popup-content-description > p {
+    padding: 5px 15px 0 15px;
+    word-break: break-all;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    padding: 6px 8px 0 0;
+    font: 24px/22px Tahoma, Verdana, sans-serif;
+}
