@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>L.esri.WebMap Widgets</title>
+    <title>Tokyo Hoikuen Map</title>
     <style>
         body { margin:0; padding:0; }
         #map { position: absolute; top:0; bottom:0; right:0; left:0; }
@@ -31,18 +31,40 @@
             font-size: 1em;
         }
         .point-label div {
-            animation: fade 1.5s 1;
-            -webkit-animation: fade 1.5s 1;
+            animation: label-fade 4s 1;
+            -webkit-animation: label-fade 4s 1;
             position: relative;
             left: -50%;
             text-shadow: 1px 1px 0px #fff, -1px 1px 0px #fff, 1px -1px 0px #fff, -1px -1px 0px #fff;
         }
         .path-label div {
-            animation: fade 1.5s 1;
-            -webkit-animation: fade 1.5s 1;
+            animation: label-fade 4s 1;
+            -webkit-animation: label-fade 4s 1;
             position: relative;
             left: -50%;
             text-shadow: 1px 1px 0px #fff, -1px 1px 0px #fff, 1px -1px 0px #fff, -1px -1px 0px #fff;
+        }
+        @keyframes label-fade {
+          0% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        @-webkit-keyframes label-fade {
+          0% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
         }
         
         /**/
@@ -122,29 +144,7 @@
     <link rel="stylesheet" href="assets/css/popup.css" />
     <link rel="stylesheet" href="assets/css/layers-control.css" />
     <!--<script src="dist/esri-leaflet-webmap-widgets.js"></script>-->
-    <script>
-        var webmap = L.esri.webMap('fb531718fd8d46dca745625d16954f1b', { map: L.map('map') });
-        webmap.on('load', webmapLoaded);
-        webmap.on('metadataLoad', metadataLoaded);
-        function webmapLoaded() {
-            initLayerControl();
-        }
-        function metadataLoaded() {
-            
-        }
-        function initLayerControl() {
-            var basemaps = {};
-            var overlayMaps = {};
-            basemaps[webmap.layers[0].title] = webmap.layers[0].layer;
-            webmap.layers.reverse().map(function(l, i) {
-                if(i !== webmap.layers.length-1) {
-                    overlayMaps[l.title] = l.layer;
-                }
-            });
-            L.control.layers(basemaps, overlayMaps, {
-                position: 'topright'
-            }).addTo(webmap._map);
-        }
-    </script>
+    
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
