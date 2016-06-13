@@ -6,11 +6,41 @@ webmap.on('load', webmapLoaded);
 webmap.on('metadataLoad', metadataLoaded);
 
 function webmapLoaded() {
+    initGeocoder();
     initBasemapControl();
     initLayerControl();
 }
 function metadataLoaded() {
     console.log(webmap.portalItem);
+}
+
+function initGeocoder() {
+  var providers = [];
+  var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
+  /*var hoikuen = L.esri.Geocoding.featureLayerProvider({
+    url: 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/CITY/FeatureServer/0',
+    searchFields: ['施設名'],
+    label: '保育園',
+    formatSuggestion: function(feature){
+      return feature.properties['施設名'];
+    }
+  });*/ // it dose not work.. N prefix is required into where clause?
+  providers.push(arcgisOnline);
+  //providers.push(hoikuen);
+
+  var searchControl = L.esri.Geocoding.geosearch({
+    providers: providers
+  }).addTo(webmap._map);
+
+  var results = L.layerGroup().addTo(webmap._map);
+
+  searchControl.on('results', function(data){
+    console.log(data.results);
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
 }
 
 function initBasemapControl() {
@@ -19,7 +49,7 @@ function initBasemapControl() {
     basemaps['地理院地図'] = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
         attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
     });
-    
+
     L.control.layers(basemaps, {}, {
         position: 'topright'
     }).addTo(webmap._map);
@@ -47,6 +77,7 @@ function initLayerControl() {
     webmap._map.on('overlayremove', removeVisibleHoikuen);
 
     setWhereCapacityLayer();
+    capacityLayer.addTo(webmap._map);
 }
 
 function setWhereCapacityLayer() {

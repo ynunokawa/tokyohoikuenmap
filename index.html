@@ -7,7 +7,7 @@
         body { margin:0; padding:0; }
         #map { position: absolute; top:0; bottom:0; right:0; left:0; }
         #root { position: absolute; top:0; right:0; z-index:999; }
-        
+
         /* label.css */
         .point-label {
             font-size: 1em;
@@ -66,7 +66,7 @@
             opacity: 1;
           }
         }
-        
+
         /**/
         .leaflet-vector-icon > svg > g {
             animation: volume 2s 1;
@@ -117,7 +117,7 @@
 <body>
     <!--<div id="webmapTemplate"></div>-->
     <div id="map"></div>
-    
+
     <!-- Load Leaflet from CDN-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
@@ -136,15 +136,21 @@
 
     <!-- Load Vector Icon from GitHub -->
     <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
-    
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+
+
     <!-- Load L.esri.WebMap -->
 	<script src="https://ynunokawa.github.io/L.esri.WebMap/src/L.esri.WebMap.js"></script>
-    
+
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
     <link rel="stylesheet" href="assets/css/layers-control.css" />
+    <link rel="stylesheet" href="assets/css/geocoder.css" />
     <!--<script src="dist/esri-leaflet-webmap-widgets.js"></script>-->
-    
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
