@@ -13,8 +13,8 @@
     width: 32px;
     height: 32px;
     line-height: 32px;
-    color: #777;
-    background-color: #333;
+    color: #333;
+    background-color: #fff;
     border-bottom: 1px solid #777;
 }
 
@@ -27,6 +27,7 @@
 .geocoder-control-input {
   padding-top: 8px;
   padding-bottom: 8px;
-  background-color: #333;
-  color: #777;
+  background-color: #fff;
+  color: #333;
+  font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
 }

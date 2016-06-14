@@ -8,8 +8,9 @@
 .leaflet-bar a:last-child {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom: 1px solid #777;
 }
-.leaflet-bar a, .leaflet-bar a:hover {
+.leaflet-bar a :hover {
     width: 32px;
     height: 32px;
     line-height: 32px;
