@@ -1,37 +1,49 @@
 {
-  "name": "esri-leaflet-react-widgets",
-  "version": "0.0.0",
-  "description": "A set of widgets for working with L.esri.WebMap and Leaflet.",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test-build": "webpack-dev-server --progress --colors --hot",
-    "production": "webpack -p",
-    "develop": "webpack -d",
-    "watch": "webpack -d --watch"
+  "name": "tokyohoikuenmap",
+  "version": "0.1.0",
+  "description": "Tokyo Hoikuen Map",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
   },
-  "keywords": [
-    "react",
-    "leaflet",
-    "esri-leaflet",
-    "arcgis"
-  ],
-  "author": "Yusuke Nunokawa <nuno0825@gmail.com>",
-  "license": "MIT",
   "dependencies": {
-    "leaflet": "^1.0.0-rc.1",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-widgets": "^3.3.2"
-  },
-  "devDependencies": {
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
+    "babel-preset-es2015": "^6.9.0",
     "file-loader": "^0.8.5",
+    "react": "^15.1.0",
+    "leaflet": "^1.0.0-rc.1",
+    "react-widgets": "^3.3.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "react-dom": "^15.1.0",
     "webpack": "^1.13.1"
-  }
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -p 5000 -c-1 -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ynunokawa/tokyohoikuenmap.git"
+  },
+  "keywords": [
+    "tokyo",
+    "code",
+    "for",
+    "tokyo",
+    "hoikuen",
+    "leaflet",
+    "arcgis"
+  ],
+  "author": "Code for Tokyo (@codefortokyo)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ynunokawa/tokyohoikuenmap/issues"
+  },
+  "homepage": "https://github.com/ynunokawa/tokyohoikuenmap#readme"
 }
