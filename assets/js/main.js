@@ -79,16 +79,16 @@ function initGeocoder() {
     results.clearLayers();
     var resultIcon = L.vectorIcon({
         className: 'geocoder-result-icon',
-        svgHeight: 26,
-        svgWidth: 26,
+        svgHeight: 14,
+        svgWidth: 14,
         type: 'circle',
         shape: {
-            r: '12',
-            cx: '13',
-            cy: '13'
+            r: '6',
+            cx: '7',
+            cy: '7'
         },
         style: {
-            fill: 'rgba(51,204,255,0.7)',
+            fill: 'rgba(255,102,0,0.8)',
             stroke: '#fff',
             strokeWidth: 0
         }
@@ -171,9 +171,8 @@ function setWhereCapacityLayer() {
     console.log(where);
     for(key in capacityLayer._layers){
         if(capacityLayer._layers[key]._cache !== undefined) {
-            capacityLayer._layers[key].setWhere(where, function(response) {
-                console.log(response);
-            }, function(error) { console.log(error); });
+            console.log(key);
+            capacityLayer._layers[key].setWhere(where);
         }
     }
     setCapacitiesZIndex();
