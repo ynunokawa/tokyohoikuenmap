@@ -3,7 +3,7 @@ var webmap, capacityLayer, tokyo23Layer;
 
 // URL パラメーターから選択した区名の取得
 function getAreaName() {
-    var initAreaName = '練馬区';
+    var initAreaName = appConfig.defaultAreaName;
     var urlParams = location.search.substring(1).split('&');
     for(var i=0; urlParams[i]; i++) {
         var param = urlParams[i].split('=');
@@ -28,7 +28,7 @@ function getAreaBounds(e) {
 
 // Web マップの初期化
 function initWebmap() {
-    webmap = L.esri.webMap('fb531718fd8d46dca745625d16954f1b', { map: L.map('map') }); // ArcGIS Web マップ: http://www.arcgis.com/home/webmap/viewer.html?webmap=fb531718fd8d46dca745625d16954f1b
+    webmap = L.esri.webMap(appConfig.webmapId, { map: L.map('map') }); // A leaflet plugin to display ArcGIS Web Map: https://github.com/ynunokawa/L.esri.WebMap
     webmap.on('load', webmapLoaded);
     webmap.on('metadataLoad', metadataLoaded);
 }
