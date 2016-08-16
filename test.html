@@ -1,12 +1,92 @@
-<!doctype html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
+  <meta charset=utf-8 />
+  <title>L.esri.WebMap Demo</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!-- Load Leaflet from CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet-src.js"></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.2/esri-leaflet.js"></script>
+
+	<!-- Load Leaflet Heat from CDN -->
+	<script src="https://rawgit.com/Leaflet/Leaflet.heat/gh-pages/dist/leaflet-heat.js"></script>
+
+	<!-- Load Heatmap Feature Layer from CDN -->
+	<script src="https://cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/2.0.0-beta.1/esri-leaflet-heatmap-feature-layer.js"></script>
+
+    <!-- Load L.esri.WebMap -->
+	<script src="http://localhost/arcSample/ESRIJ/_PRIVATECLONE/L.esri.WebMap/dist/esri-leaflet-webmap-debug.js"></script>
+
+  <!-- Load Esri Leaflet Renderers from CDN -->
+  <!--<script src="//cdn.jsdelivr.net/leaflet.esri.renderers/2.0.2/esri-leaflet-renderers.js"></script>-->
+  <script src="http://localhost/arcSample/ESRIJ/_PRIVATECLONE/esri-leaflet-renderers/dist/esri-leaflet-renderers-debug.js"></script>
+
+    <!-- Load Vector Icon from GitHub -->
+    <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+
+
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+    .map-title-control {
+        background-color: #fff;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+        padding: 10px;
+        border: 2px solid rgba(0,0,0,0.2);
+        border-radius: 4px;
+        font: bold 1em 'Lucida Console', 'Meiryo', Monaco, monospace;
+    }
+  </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script src="dist/bundle.js"></script>
-    <script>App.render();</script>
+
+<div id="map"></div>
+
+<script>
+    var webmapId = '22c504d229f14c789c5b49ebff38b941'; // Default WebMap ID
+    var urlParams = location.search.substring(1).split('&');
+    for(var i=0; urlParams[i]; i++) {
+        var param = urlParams[i].split('=');
+        if(param[0] === 'webmap') {
+            webmapId = param[1]
+        }
+    }
+	var webmap = L.esri.webMap(webmapId, { map: L.map("map") });
+    webmap.on('metadataLoad', function() {
+        var MapTitleControl = L.Control.extend({
+            options: {
+                position: 'topright'
+            },
+            onAdd: function (map) {
+                var container = L.DomUtil.create('div', 'map-title-control');
+                container.innerHTML = '<a target="_brank" href="http://www.arcgis.com/home/webmap/viewer.html?webmap=' + webmapId + '">' + webmap.title + '</a>'; // Add link to a webmap.
+                return container;
+            }
+        });
+        webmap._map.addControl(new MapTitleControl());
+    });
+    webmap.on('load', function() {
+        console.log('webmap loaded', webmap.layers);
+        var overlayMaps = {};
+        webmap.layers.map(function(l) {
+            console.log(l);
+            overlayMaps[l.title] = l.layer;
+        });
+        L.control.layers({}, overlayMaps, {
+            position: 'bottomright'
+        }).addTo(webmap._map);
+    });
+</script>
+
 </body>
 </html>
