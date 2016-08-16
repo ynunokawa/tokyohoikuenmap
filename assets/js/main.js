@@ -1,6 +1,7 @@
 var visibleHoikuen = [];
 var webmap, capacityLayer, tokyo23Layer;
 
+// URL パラメーターから選択した区名の取得
 function getAreaName() {
     var initAreaName = '練馬区';
     var urlParams = location.search.substring(1).split('&');
@@ -12,6 +13,8 @@ function getAreaName() {
     }
     return initAreaName;
 }
+
+// 選択した区の範囲を取得・ズーム
 function getAreaBounds(e) {
     //console.log(e.feature);
     if(e.feature.properties['CSS_NAME'] === visibleHoikuen[0]) {
@@ -23,11 +26,14 @@ function getAreaBounds(e) {
     }
 }
 
+// Web マップの初期化
 function initWebmap() {
-    webmap = L.esri.webMap('fb531718fd8d46dca745625d16954f1b', { map: L.map('map') });
+    webmap = L.esri.webMap('fb531718fd8d46dca745625d16954f1b', { map: L.map('map') }); // ArcGIS Web マップ: http://www.arcgis.com/home/webmap/viewer.html?webmap=fb531718fd8d46dca745625d16954f1b
     webmap.on('load', webmapLoaded);
     webmap.on('metadataLoad', metadataLoaded);
 }
+
+// Web マップ読み込み後に実行（各コントロールの初期化）
 function webmapLoaded() {
     initHomeControl();
     initGeocoder();
@@ -35,10 +41,13 @@ function webmapLoaded() {
     initLayerControl();
     //getAreaBounds();
 }
+
+// Web マップ メタデータ読み込み後に実行
 function metadataLoaded() {
     console.log(webmap.portalItem);
 }
 
+// ホーム コントロールの初期化（「ホームへ戻る」リンク）
 function initHomeControl() {
     var HomeControl = L.Control.extend({
         options: {
@@ -53,9 +62,10 @@ function initHomeControl() {
     webmap._map.addControl(new HomeControl());
 }
 
+// 住所検索コントロールの初期化
 function initGeocoder() {
   var providers = [];
-  var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
+  var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(); // ArcGIS 住所検索サービス
   /*var hoikuen = L.esri.Geocoding.featureLayerProvider({
     url: 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/CITY/FeatureServer/0',
     searchFields: ['施設名'],
@@ -67,6 +77,7 @@ function initGeocoder() {
   providers.push(arcgisOnline);
   //providers.push(hoikuen);
 
+  // 住所検索コントロール
   var searchControl = L.esri.Geocoding.geosearch({
     providers: providers,
     placeholder: '住所/地名を入力'
@@ -74,6 +85,7 @@ function initGeocoder() {
 
   var results = L.layerGroup().addTo(webmap._map);
 
+  // 結果取得イベントリスナ―
   searchControl.on('results', function(data){
     console.log(data.results);
     results.clearLayers();
@@ -93,12 +105,14 @@ function initGeocoder() {
             strokeWidth: 0
         }
     });
+    // 検索結果のハイライト・ポップアップ表示
     var result = L.marker(data.results[0].latlng, { icon: resultIcon }).bindPopup('<div class="leaflet-popup-content-title"><h4>' + data.results[0].text + '</h4></div>');
     results.addLayer(result);
     result.openPopup();
   });
 }
 
+// 背景地図コントロールの初期化
 function initBasemapControl() {
     var basemaps = {};
     basemaps[webmap.layers[0].title] = webmap.layers[0].layer;
@@ -115,6 +129,7 @@ function initBasemapControl() {
     basemapControl._layersLink.innerHTML = '<div>背景</div>';
 }
 
+// 保育園レイヤー コントロールの初期化
 function initLayerControl() {
     var overlayMaps = {};
     var overlayHoikuenMaps = {};
@@ -126,7 +141,6 @@ function initLayerControl() {
                 if(l.title === visibleHoikuen[0]) {
                     webmap._map.addLayer(l.layer);
                 }
-                l.layer.on('addfeature', setCapacitiesZIndex); // 必須ではないので描画パフォーマンスと相談
             }
             else {
                 overlayMaps[l.title] = l.layer;
@@ -144,10 +158,12 @@ function initLayerControl() {
             }
         }
     });
+    // 定員・23区界レイヤー コントロール
     var layerControl = L.control.layers({}, overlayMaps, {
         position: 'topright',
         autoZIndex: false
     });
+    // 23区別保育園レイヤー コントロール
     var hoikuenLayerControl = L.control.layers({}, overlayHoikuenMaps, {
         position: 'topright',
         autoZIndex: false
@@ -161,10 +177,9 @@ function initLayerControl() {
     webmap._map.on('overlayremove', removeVisibleHoikuen);
 
     setWhereCapacityLayer();
-    //setCapacitiesZIndex();
-    //capacityLayer.addTo(webmap._map);
 }
 
+// 保育園（定員）レイヤーの属性フィルタリング
 function setWhereCapacityLayer() {
     var where = arrayToWhere(visibleHoikuen);
     console.log(capacityLayer._layers);
@@ -175,8 +190,9 @@ function setWhereCapacityLayer() {
             capacityLayer._layers[key].setWhere(where);
         }
     }
-    setCapacitiesZIndex();
 }
+
+// 保育園（定員）レイヤーの属性フィルタリング用 WHERE 句の生成
 function arrayToWhere(arr) {
     var where = '';
     if(arr.length === 0) {
@@ -200,17 +216,21 @@ function arrayToWhere(arr) {
     return where;
 }
 
+// レイヤーの表示イベントリスナ―
 function addVisibleHoikuen(e) {
     console.log(e);
+    // 保育園レイヤー判定
     if(e.name.match(/区$/) !== null) {
         visibleHoikuen.push(e.name);
         console.log(visibleHoikuen);
         setWhereCapacityLayer();
     }
-    setCapacitiesZIndex(); // 必須ではないので描画パフォーマンスと相談
 }
+
+// レイヤーの非表示イベントリスナ―
 function removeVisibleHoikuen(e) {
     console.log(e);
+    // 保育園レイヤー判定
     if(e.name.match(/区$/) !== null) {
         visibleHoikuen.map(function(v, i) {
             if(v === e.name) {
@@ -220,20 +240,6 @@ function removeVisibleHoikuen(e) {
         console.log(visibleHoikuen);
         setWhereCapacityLayer();
     }
-}
-
-function setCapacitiesZIndex() {
-    setTimeout(function() {
-        console.log('setZIndex!!!');
-        for(key in capacityLayer._layers){
-            if(capacityLayer._layers[key]._cache !== undefined) {
-                capacityLayer._layers[key].eachFeature(function(l) {
-                    //console.log(l);
-                    l.setZIndexOffset(-99999);
-                });
-            }
-        }
-    }, 1000);
 }
 
 visibleHoikuen.push(getAreaName());
