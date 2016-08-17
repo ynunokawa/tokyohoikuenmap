@@ -18,3 +18,7 @@
     background-color: #333;
     border-bottom: 1px solid #777;
 }
+
+.calcite-nav-top .leaflet-control-zoom {
+    margin-bottom: 50px;
+}

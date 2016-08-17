@@ -4,150 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Tokyo Hoikuen Map</title>
-    <style>
-        body { margin:0; padding:0; }
-        #header {
-            position: absolute;
-            top:0;
-            left:0;
-            height:50px;
-            width:100%;
-            background:#f5646a;
-            color: #fff;
-            font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
-            font-weight: bold;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            z-index: 999;
-            font-size: 0.8em;
-        }
-        .header-title { margin-top: 15px; margin-left: 25px; }
-        #map { position: absolute; top:50px; bottom:0; right:0; left:0; height:calc(100% - 50px); width:100%; }
-        #root { position: absolute; top:0; right:0; z-index:999; }
+    
+    <!-- Calcite Bootstrap -->
+    <link rel="stylesheet" href="assets/lib/calcite-maps/css/calcite-bootstrap.min-v0.2.css">
 
-        /* label.css */
-        .esri-leaflet-webmap-labels {
-          font-weight: bold;
-          font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
-          text-transform: uppercase;
-          text-align: center;
-          white-space: nowrap;
-        }
-        .esri-leaflet-webmap-labels div {
-          font-size: 0.8em;
-          animation: label-fade 4s 1;
-          -webkit-animation: label-fade 4s 1;
-          position: relative;
-          left: -50%;
-          text-shadow: 1px 1px 0px #fff, -1px 1px 0px #fff, 1px -1px 0px #fff, -1px -1px 0px #fff;
-        }
-        @keyframes label-fade {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-        @-webkit-keyframes label-fade {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-
-        /* home-control.css */
-        .home-control {
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            background: #fff;
-            border-radius: 0;
-            font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
-            font-weight: 500;
-            height: 48px;
-            width: 100%;
-            text-align: center;
-            margin-left: 15px;
-            margin-right: 15px;
-        }
-
-        /**/
-        .leaflet-esri-webmap-layer1-pane > svg > g > path {
-            animation: volume 3s 1;
-            -webkit-animation: volume 3s 1;
-        }
-        @keyframes volume {
-          0% {
-            transform-origin: 50% 50%;
-            transform: scale(0,0);
-            opacity: 0;
-          }
-          30% {
-            transform-origin: 50% 50%;
-            transform: scale(0,0);
-            opacity: 0;
-          }
-          100% {
-            transform-origin: 50% 50%;
-            transform: scale(1,1);
-            opacity: 1;
-          }
-        }
-        @-webkit-keyframes volume {
-          0% {
-            transform-origin: 50% 50%;
-            transform: scale(0,0);
-            opacity: 0;
-          }
-          30% {
-            transform-origin: 50% 50%;
-            transform: scale(0,0);
-            opacity: 0;
-          }
-          100% {
-            transform-origin: 50% 50%;
-            transform: scale(1,1);
-            opacity: 1;
-          }
-        }
-
-        path.leaflet-interactive {
-            animation: fade 1.5s 1;
-            -webkit-animation: fade 1.5s 1;
-        }
-        @keyframes fade {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-        @-webkit-keyframes fade {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
-        }
-    </style>
-</head>
-<body>
-    <!--<div id="webmapTemplate"></div>-->
-    <div id="header">
-        <div class="header-title">
-            <span>Tokyo保育園マップβ版 by Code for Tokyo</span>
-        </div>
-    </div>
-    <div id="map"></div>
-    <a href="https://github.com/ynunokawa/tokyohoikuenmap"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999999; width: 20%; max-width: 125px;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
+    <!-- Calcite Maps -->
+    <link rel="stylesheet" href="assets/lib/calcite-maps/css/calcite-maps-esri-leaflet.min-v0.2.css">
+    <link rel="stylesheet" href="assets/lib/calcite-maps/fonts/calcite/calcite-ui.css">
 
     <!-- Load Leaflet from CDN-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.css" />
@@ -156,14 +19,14 @@
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.2/esri-leaflet.js"></script>
 
-	<!-- Load Leaflet Heat from CDN -->
-	<script src="https://rawgit.com/Leaflet/Leaflet.heat/gh-pages/dist/leaflet-heat.js"></script>
+    <!-- Load Leaflet Heat from CDN -->
+    <script src="https://rawgit.com/Leaflet/Leaflet.heat/gh-pages/dist/leaflet-heat.js"></script>
 
-	<!-- Load Heatmap Feature Layer from CDN -->
-	<script src="https://cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/2.0.0-beta.1/esri-leaflet-heatmap-feature-layer.js"></script>
+    <!-- Load Heatmap Feature Layer from CDN -->
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.heatmap-feature-layer/2.0.0-beta.1/esri-leaflet-heatmap-feature-layer.js"></script>
 
-  <!-- Load Esri Leaflet Renderers from CDN -->
-  <script src="//cdn.jsdelivr.net/leaflet.esri.renderers/2.0.3/esri-leaflet-renderers.js"></script>
+    <!-- Load Esri Leaflet Renderers from CDN -->
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.renderers/2.0.3/esri-leaflet-renderers.js"></script>
 
     <!-- Load Vector Icon from GitHub -->
     <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
@@ -172,17 +35,144 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
     <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
 
-
     <!-- Load L.esri.WebMap -->
-	<script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.3.4/esri-leaflet-webmap.js"></script>
+	  <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.3.4/esri-leaflet-webmap.js"></script>
+
+</head>
+<body class="calcite-maps calcite-nav-top calcite-layout-mideum-title">
+
+    <!-- Navbar -->
+    <nav class="calcite-navbar navbar navbar-fixed-top calcite-bg-custom calcite-text-light" style="background-color: rgb(245, 100, 106);">
+      <!-- Menu -->
+      <div class="dropdown calcite-dropdown calcite-bg-custom calcite-text-light" role="presentation">
+        <a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+          <div class="calcite-dropdown-toggle">
+            <span class="sr-only">Toggle dropdown menu</span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+        <ul class="dropdown-menu" style="background-color: rgb(245, 100, 106);">
+          <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Tokyo保育園マップとは？</a></li>
+          <li><a class="visible-xs" role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> 場所の検索</a></li>
+          <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> 背景</a></li>
+        </ul>
+      </div>
+      <!-- Title -->
+      <div class="calcite-title calcite-overflow-hidden">
+        <span class="calcite-title-main">Tokyo保育園マップβ版</span>
+        <span class="calcite-title-divider hidden-xs"></span>
+        <span class="calcite-title-sub hidden-xs">by Code for Tokyo</span> 
+      </div>
+      <!-- Nav -->
+      <ul class="calcite-nav nav navbar-nav">                    
+        <li><div class="calcite-navbar-search hidden-xs"><div id="geocode"></div></div></li>
+      </ul>
+    </nav><!--/.navbar -->
+
+    <!-- Map Container  -->
+    <div class="calcite-map">                
+      <div id="map" class="calcite-map-absolute"></div>    
+    </div><!-- /.container -->
+
+    <!-- Panel -->
+    <div class="calcite-panels calcite-panels-left calcite-bg-custom calcite-text-light panel-group" style="background-color: rgb(245, 100, 106);" role="tablist" aria-multiselectable="true">
+    
+      <!-- Info Panel -->
+      <div id="panelInfo" class="panel collapse">
+        <div id="headingInfo" class="panel-heading" role="tab">
+          <div class="panel-title">
+            <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Tokyo保育園マップとは？</span></a> 
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>  
+          </div>
+        </div>
+        <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
+          <div class="panel-body">
+            <p>子どもを「どこに」預ければいいんだろう？
+            <br>どこに住めばいいんだろう？
+            <br>勤め先はどこに？
+            <br>
+            <br>東京の保育園の不足は深刻。
+            <br>子どもを持って東京の街に住む人、働く人、
+            <br>これから住もうとする人、これから子どもを持とうとする人、
+            <br>あるいは、そのような家族や友人を支える人たちの悩みや負担、不安が少しでも軽くなれば。
+            <br>
+            <br>住む場所と働く場所が必ずしも同じ自治体にあるわけではないし、
+            <br>今とこれからも同じ場所に住んでいるとも限らない。
+            <br>
+            <br>Tokyo保育園マップは、自治体の境界線を超えて横断的に保育園を探せます。
+            <br>現在は23区のみを対象にしていますが、今後市町村のデータ整備やマップへの掲載も考えています。
+            <br>※ β版は、検索機能や空き情報はご利用いただけません。
+            <br>
+            <br>Tokyo保育園マップは、Code for Tokyoの有志によるTokyo保育園マップ作成チームが作成しています。
+            <br>ご協力いただける自治体やNPO、個人を大歓迎しています。
+            <br>
+            <br>さっぽろ保育園マップ（パパマママップ）をforkしています。</p>
+            <p>(c) 2016 <a target="_brank" href="http://codefor.tokyo/">Code for Tokyo</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Panel -->
+      <div id="panelSearch" class="panel collapse hidden-sm hidden-md hidden-lg"> 
+        <div id="headingSearch" class="panel-heading" role="tab">
+          <div class="panel-title">
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch"  aria-expanded="false" aria-controls="collapseSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="panel-label">Search</span></a> 
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>        
+          </div>
+        </div>
+        <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
+          <div class="panel-body calcite-body-expander">    
+              <div id="geocodeMobile"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basemaps Panel -->
+      <div id="panelBasemaps" class="panel collapse">
+        <div id="headingBasemaps" class="panel-heading" role="tab">
+          <div class="panel-title">
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false" aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="panel-label">背景</span></a> 
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>  
+          </div>
+        </div>
+        <div id="collapseBasemaps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBasemaps">
+          <div class="panel-body">
+            <select id="selectStandardBasemap" class="form-control">
+              <option value="OpenStreetMap">Open Street Map</option>
+              <option value="OpenStreetMap">地理院地図</option>
+              <option value="Streets">Esri 道路地図</option>
+              <option value="Imagery">Esri 衛星画像</option>
+              <option value="Topographic">Esri 地形図</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+    </div> <!-- /.calcite-panels -->
+
+
+    <a href="https://github.com/ynunokawa/tokyohoikuenmap"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999999; width: 20%; max-width: 125px;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
 
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
-    <link rel="stylesheet" href="assets/css/layers-control.css" />
     <link rel="stylesheet" href="assets/css/geocoder.css" />
-    <!--<script src="dist/esri-leaflet-webmap-widgets.js"></script>-->
+    <link rel="stylesheet" href="assets/css/label.css" />
+    <link rel="stylesheet" href="assets/css/svg.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
 
     <script src="assets/js/config.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <!--script src="http://esri.github.io/calcite-bootstrap/scripts/vendor.js"></script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all plugins or individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="assets/lib/calcite-maps/js/jquery/calcitemaps-v0.2.js"></script>
+
+    <script src="assets/js/ui.js"></script>
 </body>
 </html>
