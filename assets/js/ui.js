@@ -39,22 +39,4 @@ $(document).ready(function(){
         map.removeLayer(worldTransportation);
       }
     }
-
-    // Attach search control for desktop or mobile
-    function attachSearch() {
-        var parentName = $(".geocoder-control").parent().attr("id"),
-            geocoder = $(".geocoder-control"),
-            width = $(window).width();
-        if (width <= 767 && parentName !== "geocodeMobile") {
-            geocoder.detach();
-            $("#geocodeMobile").append(geocoder);
-        } else if (width > 767 && parentName !== "geocode"){
-            geocoder.detach();
-            $("#geocode").append(geocoder);
-        }
-    }
-    $(window).resize(function() {
-        attachSearch();
-    });
-    attachSearch();
 });
