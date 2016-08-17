@@ -1,5 +1,5 @@
 var visibleHoikuen = [];
-var webmap, capacityLayer, tokyo23Layer;
+var webmap, map, capacityLayer, tokyo23Layer, basemapLayer;
 
 // URL パラメーターから選択した区名の取得
 function getAreaName() {
@@ -20,7 +20,7 @@ function getAreaBounds(e) {
     if(e.feature.properties['CSS_NAME'] === visibleHoikuen[0]) {
         L.geoJson(e.feature, {
             onEachFeature: function(geojson, l) {
-                webmap._map.fitBounds(l.getBounds());
+                map.fitBounds(l.getBounds());
             }
         });
     }
@@ -28,18 +28,22 @@ function getAreaBounds(e) {
 
 // Web マップの初期化
 function initWebmap() {
-    webmap = L.esri.webMap(appConfig.webmapId, { map: L.map('map') }); // A leaflet plugin to display ArcGIS Web Map: https://github.com/ynunokawa/L.esri.WebMap
+    webmap = L.esri.webMap(appConfig.webmapId, { map: L.map('map', {zoomControl: false}) }); // A leaflet plugin to display ArcGIS Web Map: https://github.com/ynunokawa/L.esri.WebMap
     webmap.on('load', webmapLoaded);
     webmap.on('metadataLoad', metadataLoaded);
 }
 
 // Web マップ読み込み後に実行（各コントロールの初期化）
 function webmapLoaded() {
-    initHomeControl();
+    map = webmap._map;
+    basemapLayer = webmap.layers[0].layer;
+
+    initZoomControl();
     initGeocoder();
-    initBasemapControl();
     initLayerControl();
-    //getAreaBounds();
+
+    map.on('overlayadd', addVisibleHoikuen);
+    map.on('overlayremove', removeVisibleHoikuen);
 }
 
 // Web マップ メタデータ読み込み後に実行
@@ -47,19 +51,10 @@ function metadataLoaded() {
     console.log(webmap.portalItem);
 }
 
-// ホーム コントロールの初期化（「ホームへ戻る」リンク）
-function initHomeControl() {
-    var HomeControl = L.Control.extend({
-        options: {
-            position: 'bottomleft'
-        },
-        onAdd: function (map) {
-            var container = L.DomUtil.create('div', 'home-control');
-            container.innerHTML = '<h5><a href="home.html">ホームへ戻る</a></h5>';
-            return container;
-        }
-    });
-    webmap._map.addControl(new HomeControl());
+function initZoomControl() {
+    L.control.zoom({
+        position: 'bottomright'
+    }).addTo(map);
 }
 
 // 住所検索コントロールの初期化
@@ -79,11 +74,12 @@ function initGeocoder() {
 
   // 住所検索コントロール
   var searchControl = L.esri.Geocoding.geosearch({
+    position: 'bottomleft',
     providers: providers,
     placeholder: '住所/地名を入力'
-  }).addTo(webmap._map);
+  }).addTo(map);
 
-  var results = L.layerGroup().addTo(webmap._map);
+  var results = L.layerGroup().addTo(map);
 
   // 結果取得イベントリスナ―
   searchControl.on('results', function(data){
@@ -112,23 +108,6 @@ function initGeocoder() {
   });
 }
 
-// 背景地図コントロールの初期化
-function initBasemapControl() {
-    var basemaps = {};
-    basemaps[webmap.layers[0].title] = webmap.layers[0].layer;
-    basemaps['地理院地図'] = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-        attribution: "<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
-    });
-    basemaps['Esri 地形図'] = L.esri.basemapLayer("Topographic");
-    basemaps['Esri 衛星画像'] = L.esri.basemapLayer("Imagery");
-    
-    var basemapControl = L.control.layers(basemaps, {}, {
-        position: 'topright'
-    });
-    basemapControl.addTo(webmap._map);
-    basemapControl._layersLink.innerHTML = '<div>背景</div>';
-}
-
 // 保育園レイヤー コントロールの初期化
 function initLayerControl() {
     var overlayMaps = {};
@@ -139,7 +118,7 @@ function initLayerControl() {
             if(l.title.match(/区$/) !== null) {
                 overlayHoikuenMaps[l.title] = l.layer;
                 if(l.title === visibleHoikuen[0]) {
-                    webmap._map.addLayer(l.layer);
+                    map.addLayer(l.layer);
                 }
             }
             else {
@@ -158,23 +137,13 @@ function initLayerControl() {
             }
         }
     });
-    // 定員・23区界レイヤー コントロール
-    var layerControl = L.control.layers({}, overlayMaps, {
-        position: 'topright',
-        autoZIndex: false
-    });
     // 23区別保育園レイヤー コントロール
-    var hoikuenLayerControl = L.control.layers({}, overlayHoikuenMaps, {
+    /*var hoikuenLayerControl = L.control.layers({}, overlayHoikuenMaps, {
         position: 'topright',
         autoZIndex: false
     });
     hoikuenLayerControl.addTo(webmap._map);
-    layerControl.addTo(webmap._map);
-    console.log(layerControl);
-    layerControl._layersLink.innerHTML = '<div>その他</div>';
-    hoikuenLayerControl._layersLink.innerHTML = '<div>保育園</div>';
-    webmap._map.on('overlayadd', addVisibleHoikuen);
-    webmap._map.on('overlayremove', removeVisibleHoikuen);
+    hoikuenLayerControl._layersLink.innerHTML = '<div>保育園</div>';*/
 
     setWhereCapacityLayer();
 }
