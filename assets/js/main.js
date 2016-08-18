@@ -1,5 +1,5 @@
 var visibleHoikuen = [];
-var webmap, map, hoikuenLayer, capacityLayer, tokyo23Layer, basemapLayer;
+var webmap, map, hoikuenLayer, capacityLayer, tokyo23Layer, basemapLayer, results;
 
 $(document).ready(function(){
     $('#select-fin-btn').on('click', function () {
@@ -93,7 +93,7 @@ $(document).ready(function(){
             placeholder: '住所/地名を入力'
         }).addTo(map);
 
-        var results = L.layerGroup().addTo(map);
+        results = L.layerGroup().addTo(map);
 
         // 結果取得イベントリスナ―
         searchControl.on('results', function(data){
@@ -211,20 +211,18 @@ $(document).ready(function(){
 
             mly.on('nodechanged', function (node) {
                 var latLon = [node.latLon.lat, node.latLon.lon];
+                results.clearLayers();
                 map.setView(latLon);
 
-                if (!mapillaryMarker) {
-                    var mapillaryIcon = L.icon({
-                        iconUrl: 'assets/css/images/baby.png', // http://icooon-mono.com/license
-                        iconRetinaUrl: 'assets/css/images/baby.png',
-                        iconSize: [48, 48],
-                        iconAnchor: [24, 24],
-                        //popupAnchor: [-3, -76],
-                    });
-                    mapillaryMarker = L.marker(latLon, { icon: mapillaryIcon }).addTo(map);
-                } else {
-                    mapillaryMarker.setLatLng(latLon);
-                }
+                var mapillaryIcon = L.icon({
+                    iconUrl: 'assets/css/images/baby.png', // http://icooon-mono.com/license
+                    iconRetinaUrl: 'assets/css/images/baby.png',
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 24],
+                    //popupAnchor: [-3, -76],
+                });
+                mapillaryMarker = L.marker(latLon, { icon: mapillaryIcon }).addTo(map);
+                results.addLayer(mapillaryMarker);
             });
         };
 
