@@ -98,21 +98,12 @@ $(document).ready(function(){
         searchControl.on('results', function(data){
             console.log(data.results);
             results.clearLayers();
-            var resultIcon = L.vectorIcon({
-                className: 'geocoder-result-icon',
-                svgHeight: 14,
-                svgWidth: 14,
-                type: 'circle',
-                shape: {
-                    r: '6',
-                    cx: '7',
-                    cy: '7'
-                },
-                style: {
-                    fill: 'rgba(255,102,0,0.8)',
-                    stroke: '#fff',
-                    strokeWidth: 0
-                }
+            var resultIcon = L.icon({
+                iconUrl: 'assets/css/images/baby.png', // http://icooon-mono.com/license
+                iconRetinaUrl: 'assets/css/images/baby.png',
+                iconSize: [48, 48],
+                iconAnchor: [24, 24],
+                //popupAnchor: [-3, -76],
             });
             // 検索結果のハイライト・ポップアップ表示
             var result = L.marker(data.results[0].latlng, { icon: resultIcon }).bindPopup('<div class="leaflet-popup-content-title"><h4>' + data.results[0].text + '</h4></div>');
@@ -212,20 +203,28 @@ $(document).ready(function(){
 
         // **Beta**
         function initMapillary() {
+            var mapillaryMarker;
             var mly = new Mapillary.Viewer('mapillary-view',
-                 appConfig.mapillaryAppId,
-                 appConfig.mapillaryPhotoKey);
+                    appConfig.mapillaryAppId,
+                    appConfig.mapillaryPhotoKey);
 
-             mly.on('nodechanged', function (node) {
-                 var latLon = [node.latLon.lat, node.latLon.lon];
-                 map.setView(latLon, 15);
+            mly.on('nodechanged', function (node) {
+                var latLon = [node.latLon.lat, node.latLon.lon];
+                map.setView(latLon);
 
-                     /*if (!marker) {
-                         marker = L.marker(node.latLon).addTo(map)
-                     } else {
-                         marker.setLatLng(node.latLon)
-                     }*/
-             })
+                if (!mapillaryMarker) {
+                    var mapillaryIcon = L.icon({
+                        iconUrl: 'assets/css/images/baby.png', // http://icooon-mono.com/license
+                        iconRetinaUrl: 'assets/css/images/baby.png',
+                        iconSize: [48, 48],
+                        iconAnchor: [24, 24],
+                        //popupAnchor: [-3, -76],
+                    });
+                    mapillaryMarker = L.marker(latLon, { icon: mapillaryIcon }).addTo(map);
+                } else {
+                    mapillaryMarker.setLatLng(latLon);
+                }
+            });
         };
 
     });
