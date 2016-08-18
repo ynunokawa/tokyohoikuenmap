@@ -41,6 +41,11 @@
     <!-- Load L.esri.WebMap -->
 	  <script src="https://cdn.jsdelivr.net/leaflet.esri.webmap/0.3.4/esri-leaflet-webmap.js"></script>
 
+    <!-- Mapillary JS -->
+    <link rel="stylesheet" href="https://npmcdn.com/mapillary-js@1.0.1/dist/mapillary-js.min.css">
+    <script src="//npmcdn.com/mapillary-js@1.0.1/dist/mapillary-js.min.js"></script>
+
+
 </head>
 <body class="calcite-maps calcite-nav-top calcite-layout-mideum-title">
 
@@ -61,6 +66,7 @@
           <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Tokyo保育園マップとは？</a></li>
           <li><a class="visible-xs" role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> 場所の検索</a></li>
           <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> 背景</a></li>
+          <li><a role="button" data-target="#panelMapillary" aria-haspopup="true"><span class="glyphicon glyphicon-eye-open"></span> Mapillary パノラマビュー</a></li>
           <li><a role="button" href="https://github.com/ynunokawa/tokyohoikuenmap" aria-haspopup="true"><span class="fa fa-github"></span> GitHub</a></li>
         </ul>
       </div>
@@ -154,6 +160,21 @@
           </div>
         </div>
       </div>
+
+      <!-- Mapillary Panel -->
+      <div id="panelMapillary" class="panel collapse">
+        <div id="headingMapillary" class="panel-heading" role="tab">
+          <div class="panel-title">
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseMapillary"  aria-expanded="false" aria-controls="collapseMapillary"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="panel-label">Mapillary パノラマビュー</span></a> 
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelMapillary"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>        
+          </div>
+        </div>
+        <div id="collapseMapillary" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingMapillary">
+          <div class="panel-body calcite-body-expander">
+            <div id="mapillary-view"></div>
+          </div>
+        </div>
+      </div>
       
     </div> <!-- /.calcite-panels -->
 
@@ -181,6 +202,7 @@
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
     <link rel="stylesheet" href="assets/css/geocoder.css" />
+    <link rel="stylesheet" href="assets/css/mapillary.css" />
     <link rel="stylesheet" href="assets/css/label.css" />
     <link rel="stylesheet" href="assets/css/tooltip.css" />
     <link rel="stylesheet" href="assets/css/svg.css" />

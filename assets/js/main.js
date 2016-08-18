@@ -37,6 +37,7 @@ $(document).ready(function(){
             initZoomControl();
             initGeocoder();
             initLayerControl();
+            initMapillary(); // **Beta**
             attachSearch();
 
             $(window).resize(function() {
@@ -171,7 +172,6 @@ $(document).ready(function(){
 
                         // 各フィーチャの SVG Path にラベル ツールチップ適用
                         setTimeout(function () {
-                            console.log(f.target._layers[String(f.feature.id)]._path);
                             var path = $(f.target._layers[String(f.feature.id)]._path);
                             path.attr({
                                 'data-toggle': 'tooltip',
@@ -209,6 +209,24 @@ $(document).ready(function(){
             }
             return where;
         }
+
+        // **Beta**
+        function initMapillary() {
+            var mly = new Mapillary.Viewer('mapillary-view',
+                 'bEN2c0tOTS1Oc1FTWWxVbm1QYVRnZzo0NTM1NTBjZjZiOThmMDUz',  // Replace this with your own ClientID
+                 'q9-4SfBz3-Yt9hoERneAVg');
+
+             mly.on('nodechanged', function (node) {
+                 var latLon = [node.latLon.lat, node.latLon.lon];
+                 map.setView(latLon, 15);
+
+                     /*if (!marker) {
+                         marker = L.marker(node.latLon).addTo(map)
+                     } else {
+                         marker.setLatLng(node.latLon)
+                     }*/
+             })
+        };
 
     });
 });
