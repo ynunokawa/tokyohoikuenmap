@@ -1,9 +1,11 @@
 var targetAreaName = '';
+var targets = [];
+var modal;
 
 $(document).ready(function(){
     console.log(appConfig);
     var areaMap = L.esri.webMap(appConfig.areaMapId, { map: L.map('area-map', { zoomControl: false }) });
-    var modal = $('#modal-select-area');
+    modal = $('#modal-select-area');
     areaMap.on('load', areaMapLoaded);
 
     function areaMapLoaded() {
@@ -19,6 +21,8 @@ $(document).ready(function(){
                     console.log(e.originalEvent.target);
                     var target = $(e.originalEvent.target);
                     var areas = $('div.modal-body > div > div > div > svg > g > path');
+                    targets = [];
+                    targets.push(target);
                     console.log(target);
                     console.log(areas);
                     areas.attr('class', 'leaflet-interactive');

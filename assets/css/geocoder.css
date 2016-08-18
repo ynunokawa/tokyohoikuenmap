@@ -29,8 +29,8 @@
 .geocoder-control-input {
   padding-top: 8px;
   padding-bottom: 8px;
-  background-color: #fff;
-  color: #333;
+  background-color: #fff !important;
+  color: #f5646a !important;
   font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
   font-size: 18px;
 }

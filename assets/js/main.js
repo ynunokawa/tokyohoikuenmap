@@ -3,6 +3,13 @@ var webmap, map, capacityLayer, tokyo23Layer, basemapLayer;
 
 $(document).ready(function(){
     $('#select-fin-btn').on('click', function () {
+        if (targets.length > 0) {
+            modal.modal('hide');
+            visibleHoikuen.push(targetAreaName);
+            initWebmap();
+        } else {
+            $('#target-area-name').text('エリアが選択されていません！');
+        }
 
         // URL パラメーターから選択した区名の取得
         /*function getAreaName() {
@@ -232,9 +239,6 @@ $(document).ready(function(){
                 setWhereCapacityLayer();
             }
         }
-
-        visibleHoikuen.push(targetAreaName);
-        initWebmap();
 
     });
 });

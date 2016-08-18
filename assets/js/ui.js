@@ -33,7 +33,7 @@ $(document).ready(function(){
         
       // add world transportation service to Imagery basemap
       if (basemap === 'Imagery') {
-        worldTransportation.addTo(map);            
+        worldTransportation.addTo(map);
       } else if (map.hasLayer(worldTransportation)) {
         // remove world transportation if Imagery basemap is not selected    
         map.removeLayer(worldTransportation);
