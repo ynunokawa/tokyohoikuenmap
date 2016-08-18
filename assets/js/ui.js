@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    // Label Tip
+    $('[data-toggle="tooltip"]').tooltip();
+
     // Basemap changed
     $("#selectStandardBasemap").on("change", function(e) {
         setBasemap($(this).val());

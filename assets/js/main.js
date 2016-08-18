@@ -135,6 +135,7 @@ $(document).ready(function(){
                     }
                     if(l.title === '東京都（23区）') {
                         tokyo23Layer = l.layer;
+
                         for(key in tokyo23Layer._layers){
                             if(tokyo23Layer._layers[key]._cache !== undefined) {
                                 tokyo23Layer._layers[key].on('createfeature', getAreaBounds);
@@ -147,7 +148,7 @@ $(document).ready(function(){
             setWhere();
         }
 
-        // 保育園（定員）レイヤーの属性フィルタリング
+        // 保育園レイヤー＋保育園（定員）レイヤーの属性フィルタリング
         function setWhere() {
             var where = arrayToWhere(targetNames);
             console.log(capacityLayer._layers);
@@ -155,12 +156,31 @@ $(document).ready(function(){
             for(key in capacityLayer._layers){
                 if(capacityLayer._layers[key]._cache !== undefined) {
                     console.log(key);
+                    // 保育園（定員）レイヤーのフィルタリング
                     capacityLayer._layers[key].setWhere(where);
                 }
             }
             for(key in hoikuenLayer._layers){
                 if(hoikuenLayer._layers[key]._cache !== undefined) {
                     console.log(key);
+                    hoikuenLayer._layers[key].on('createfeature', function (f) {
+                        // ポップアップ表示時はツールチップ非表示
+                        f.target._layers[String(f.feature.id)].on('click', function () {
+                            $('[data-toggle="tooltip"]').tooltip('hide');
+                        });
+
+                        // 各フィーチャの SVG Path にラベル ツールチップ適用
+                        setTimeout(function () {
+                            console.log(f.target._layers[String(f.feature.id)]._path);
+                            var path = $(f.target._layers[String(f.feature.id)]._path);
+                            path.attr({
+                                'data-toggle': 'tooltip',
+                                'data-placement': 'top'
+                            });
+                            path.tooltip({ title: f.feature.properties['施設名'], container: 'body' });
+                        }, 100);
+                    });
+                    // 保育園レイヤーのフィルタリング
                     hoikuenLayer._layers[key].setWhere(where);
                 }
             }

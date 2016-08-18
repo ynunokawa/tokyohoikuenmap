@@ -1,0 +1,7 @@
+.tooltip-inner {
+    font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
+    background-color: #646af5;
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: #646af5;
+}
