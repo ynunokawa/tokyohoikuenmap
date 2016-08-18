@@ -213,8 +213,8 @@ $(document).ready(function(){
         // **Beta**
         function initMapillary() {
             var mly = new Mapillary.Viewer('mapillary-view',
-                 'bEN2c0tOTS1Oc1FTWWxVbm1QYVRnZzo0NTM1NTBjZjZiOThmMDUz',  // Replace this with your own ClientID
-                 'q9-4SfBz3-Yt9hoERneAVg');
+                 appConfig.mapillaryAppId,
+                 appConfig.mapillaryPhotoKey);
 
              mly.on('nodechanged', function (node) {
                  var latLon = [node.latLon.lat, node.latLon.lon];
