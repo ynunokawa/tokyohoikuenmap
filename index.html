@@ -65,6 +65,7 @@
         <ul class="dropdown-menu" style="background-color: rgb(245, 100, 106);">
           <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Tokyo保育園マップとは？</a></li>
           <li><a class="visible-xs" role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> 場所の検索</a></li>
+          <li><a role="button" data-toggle="modal" data-target="#modal-select-area" aria-haspopup="true"><span class="fa fa-refresh"></span> エリアの変更</a></li>
           <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> 背景</a></li>
           <li><a role="button" data-target="#panelMapillary" aria-haspopup="true"><span class="glyphicon glyphicon-eye-open"></span> Mapillary パノラマビュー</a></li>
           <li><a role="button" href="https://github.com/ynunokawa/tokyohoikuenmap" aria-haspopup="true"><span class="fa fa-github"></span> GitHub</a></li>
@@ -183,7 +184,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">お住まいの区を選択してください <b><span id="target-area-name"></span></b></h4>
+            <h4 class="modal-title">お住まいのエリアを選択してください <b><span id="target-area-name"></span></b></h4>
           </div>
           <div class="modal-body">
             <div id="area-map" class="calcite-map-absolute"></div>
