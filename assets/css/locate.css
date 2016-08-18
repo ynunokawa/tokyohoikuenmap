@@ -1,0 +1,25 @@
+.leaflet-control-locate {
+  margin-right: 15px !important;
+  margin-bottom: 5px !important;
+}
+.leaflet-control-locate > a {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.leaflet-control-locate > a:hover {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  background-color: #ddd;
+}
+.leaflet-bar a :hover {
+  background-color: transparent;
+  border-bottom: 0;
+}
+
+.calcite-nav-top .calcite-map .leaflet-control-zoom {
+  margin-top: 15px;
+}

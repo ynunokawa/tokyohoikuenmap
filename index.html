@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Tokyo Hoikuen Map</title>
-    
+
     <!-- Calcite Bootstrap -->
     <link rel="stylesheet" href="assets/lib/calcite-maps/css/calcite-bootstrap.min-v0.2.css">
 
     <!-- Calcite Maps -->
     <link rel="stylesheet" href="assets/lib/calcite-maps/css/calcite-maps-esri-leaflet.min-v0.2.css">
     <link rel="stylesheet" href="assets/lib/calcite-maps/fonts/calcite/calcite-ui.css">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
@@ -33,6 +33,10 @@
 
     <!-- Load Vector Icon from GitHub -->
     <script src="https://muxlab.github.io/Leaflet.VectorIcon/L.VectorIcon.js"></script>
+
+    <!-- Leaflet.Locate -->
+    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+    <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js"></script>
 
     <!-- Load Esri Leaflet Geocoder from CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
@@ -75,28 +79,28 @@
       <div class="calcite-title calcite-overflow-hidden">
         <span class="calcite-title-main">Tokyo保育園マップβ版</span>
         <span class="calcite-title-divider hidden-xs"></span>
-        <span class="calcite-title-sub hidden-xs">by Code for Tokyo</span> 
+        <span class="calcite-title-sub hidden-xs">by Code for Tokyo</span>
       </div>
       <!-- Nav -->
-      <ul class="calcite-nav nav navbar-nav">                    
+      <ul class="calcite-nav nav navbar-nav">
         <li><div class="calcite-navbar-search hidden-xs"><div id="geocode"></div></div></li>
       </ul>
     </nav><!--/.navbar -->
 
     <!-- Map Container  -->
-    <div class="calcite-map">                
-      <div id="map" class="calcite-map-absolute"></div>    
+    <div class="calcite-map">
+      <div id="map" class="calcite-map-absolute"></div>
     </div><!-- /.container -->
 
     <!-- Panel -->
     <div class="calcite-panels calcite-panels-left calcite-bg-custom calcite-text-light panel-group" style="background-color: rgb(245, 100, 106);" role="tablist" aria-multiselectable="true">
-    
+
       <!-- Info Panel -->
       <div id="panelInfo" class="panel collapse">
         <div id="headingInfo" class="panel-heading" role="tab">
           <div class="panel-title">
-            <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Tokyo保育園マップとは？</span></a> 
-            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>  
+            <a class="panel-toggle" role="button" data-toggle="collapse" href="#collapseInfo" aria-expanded="true" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span class="panel-label">Tokyo保育園マップとは？</span></a>
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
           </div>
         </div>
         <div id="collapseInfo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInfo">
@@ -127,15 +131,15 @@
       </div>
 
       <!-- Search Panel -->
-      <div id="panelSearch" class="panel collapse hidden-sm hidden-md hidden-lg"> 
+      <div id="panelSearch" class="panel collapse hidden-sm hidden-md hidden-lg">
         <div id="headingSearch" class="panel-heading" role="tab">
           <div class="panel-title">
-            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch"  aria-expanded="false" aria-controls="collapseSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="panel-label">場所の検索</span></a> 
-            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>        
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseSearch"  aria-expanded="false" aria-controls="collapseSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="panel-label">場所の検索</span></a>
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelSearch"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
           </div>
         </div>
         <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
-          <div class="panel-body calcite-body-expander">    
+          <div class="panel-body calcite-body-expander">
               <div id="geocodeMobile"></div>
           </div>
         </div>
@@ -145,8 +149,8 @@
       <div id="panelBasemaps" class="panel collapse">
         <div id="headingBasemaps" class="panel-heading" role="tab">
           <div class="panel-title">
-            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false" aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="panel-label">背景</span></a> 
-            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>  
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps" aria-expanded="false" aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="panel-label">背景</span></a>
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
           </div>
         </div>
         <div id="collapseBasemaps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBasemaps">
@@ -166,8 +170,8 @@
       <div id="panelMapillary" class="panel collapse">
         <div id="headingMapillary" class="panel-heading" role="tab">
           <div class="panel-title">
-            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseMapillary"  aria-expanded="false" aria-controls="collapseMapillary"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="panel-label">Mapillary パノラマビュー</span></a> 
-            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelMapillary"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>        
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseMapillary"  aria-expanded="false" aria-controls="collapseMapillary"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="panel-label">Mapillary パノラマビュー</span></a>
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelMapillary"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
           </div>
         </div>
         <div id="collapseMapillary" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingMapillary">
@@ -176,7 +180,7 @@
           </div>
         </div>
       </div>
-      
+
     </div> <!-- /.calcite-panels -->
 
     <!-- Modal -->
@@ -202,6 +206,7 @@
     <link rel="stylesheet" href="assets/css/modal.css" />
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
+    <link rel="stylesheet" href="assets/css/locate.css" />
     <link rel="stylesheet" href="assets/css/geocoder.css" />
     <link rel="stylesheet" href="assets/css/mapillary.css" />
     <link rel="stylesheet" href="assets/css/label.css" />

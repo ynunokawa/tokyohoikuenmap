@@ -48,6 +48,7 @@ $(document).ready(function(){
 
         initZoomControl();
         initGeocoder();
+        initLocate();
         initLayerControl();
         initMapillary(); // **Beta**
         attachSearch();
@@ -80,6 +81,28 @@ $(document).ready(function(){
         L.control.zoom({
             position: 'bottomright'
         }).addTo(map);
+    }
+
+    function initLocate() {
+      L.control.locate({
+          position: 'bottomright',
+          drawMarker: false,
+          drawCircle: false
+      }).addTo(map);
+      map.on('locationfound', function (e) {
+        results.clearLayers();
+        var resultIcon = L.icon({
+            iconUrl: 'assets/css/images/baby.png', // http://icooon-mono.com/license
+            iconRetinaUrl: 'assets/css/images/baby.png',
+            iconSize: [48, 48],
+            iconAnchor: [24, 24],
+            //popupAnchor: [-3, -76],
+        });
+        var result = L.marker(e.latlng, { icon: resultIcon });
+        results.addLayer(result);
+        //var radius = e.accuracy / 2;
+        //L.circle(e.latlng, radius).addTo(map);
+      });
     }
 
     // 住所検索コントロールの初期化
@@ -115,7 +138,7 @@ $(document).ready(function(){
             iconRetinaUrl: 'assets/css/images/baby.png',
             iconSize: [48, 48],
             iconAnchor: [24, 24],
-            //popupAnchor: [-3, -76],
+            popupAnchor: [0, -12],
         });
         // 検索結果のハイライト・ポップアップ表示
         var result = L.marker(data.results[0].latlng, { icon: resultIcon }).bindPopup('<div class="leaflet-popup-content-title"><h4>' + data.results[0].text + '</h4></div>');
