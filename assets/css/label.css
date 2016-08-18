@@ -7,8 +7,8 @@
 }
 .esri-leaflet-webmap-labels div {
     font-size: 0.8em;
-    animation: label-fade 4s 1;
-    -webkit-animation: label-fade 4s 1;
+    animation: label-fade 2s 1;
+    -webkit-animation: label-fade 2s 1;
     position: relative;
     left: -50%;
     text-shadow: 1px 1px 0px #fff, -1px 1px 0px #fff, 1px -1px 0px #fff, -1px -1px 0px #fff;
@@ -17,7 +17,7 @@
     0% {
     opacity: 0;
     }
-    50% {
+    30% {
     opacity: 0;
     }
     100% {
@@ -28,7 +28,7 @@
     0% {
     opacity: 0;
     }
-    50% {
+    30% {
     opacity: 0;
     }
     100% {
