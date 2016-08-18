@@ -31,6 +31,7 @@ $(document).ready(function(){
                     areas.attr('class', 'leaflet-interactive');
                     target.attr('class', 'leaflet-interactive selected-area');
                     targetAreaName = e.layer.feature.properties['CSS_NAME'];
+                    $('#target-area-name').css('display', 'inline');
                     $('#target-area-name').text(targetAreaName);
                 });
             }

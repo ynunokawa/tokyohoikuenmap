@@ -13,7 +13,12 @@
 }
 
 #target-area-name {
-    color: #f5646a;
+    display: none;
+    background: #f5646a;
+    color: #fff;
+    font-size: 0.6em;
+    padding: 5px 12px 5px 12px;
+    border-radius: 5px;
 }
 
 #area-map {

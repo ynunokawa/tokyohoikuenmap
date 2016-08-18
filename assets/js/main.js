@@ -7,6 +7,7 @@ $(document).ready(function(){
             modal.modal('hide');
             initWebmap();
         } else {
+            $('#target-area-name').css('display', 'inline');
             $('#target-area-name').html('未選択です<i class="fa fa-hand-o-down" aria-hidden="true"></i>');
         }
 
