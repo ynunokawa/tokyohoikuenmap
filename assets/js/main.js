@@ -8,7 +8,7 @@ $(document).ready(function(){
             visibleHoikuen.push(targetAreaName);
             initWebmap();
         } else {
-            $('#target-area-name').text('エリアが選択されていません！');
+            $('#target-area-name').html('未選択です<i class="fa fa-hand-o-down" aria-hidden="true"></i>');
         }
 
         // URL パラメーターから選択した区名の取得
