@@ -1,0 +1,34 @@
+.modal-title {
+    font-family: "Avenir LT W01 35 Light", "Century Gothic", "Meiryo", Helvetica, Arial, sans-serif;
+}
+
+#select-fin-btn {
+    border-color: #f99498;
+    background-color: #faacaf;
+}
+
+#select-fin-btn:hover {
+    border-color: #f5646a;
+    background-color: #f5646a;
+}
+
+#target-area-name {
+    color: #f5646a;
+}
+
+#area-map {
+    height: 300px;
+    background: #fef8f4;
+}
+
+div.modal-body > div > div > div > svg > g > path:hover {
+    stroke: #f5646a;
+    stroke-width: 5;
+    fill: #f5646a;
+}
+
+.selected-area {
+    stroke: #f5646a;
+    stroke-width: 5;
+    fill: #f5646a;
+}

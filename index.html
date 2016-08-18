@@ -153,9 +153,27 @@
       
     </div> <!-- /.calcite-panels -->
 
+    <!-- Modal -->
+    <div id="modal-select-area" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">お住まいの区を選択してください　<b><span id="target-area-name"></span></b></h4>
+          </div>
+          <div class="modal-body">
+            <div id="area-map" class="calcite-map-absolute"></div>
+          </div>
+          <div class="modal-footer">
+            <button id="select-fin-btn" type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 
     <a href="https://github.com/ynunokawa/tokyohoikuenmap"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999999; width: 20%; max-width: 125px;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
 
+    <link rel="stylesheet" href="assets/css/modal.css" />
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
     <link rel="stylesheet" href="assets/css/geocoder.css" />
@@ -171,6 +189,7 @@
     <script src="assets/lib/calcite-maps/js/jquery/calcitemaps-v0.2.js"></script>
 
     <script src="assets/js/config.js"></script>
+    <script src="assets/js/selectArea.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/ui.js"></script>
 </body>
