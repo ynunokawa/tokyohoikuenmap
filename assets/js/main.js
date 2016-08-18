@@ -1,33 +1,19 @@
 var visibleHoikuen = [];
-var webmap, map, capacityLayer, tokyo23Layer, basemapLayer;
+var webmap, map, hoikuenLayer, capacityLayer, tokyo23Layer, basemapLayer;
 
 $(document).ready(function(){
     $('#select-fin-btn').on('click', function () {
         if (targets.length > 0) {
             modal.modal('hide');
-            visibleHoikuen.push(targetAreaName);
             initWebmap();
         } else {
             $('#target-area-name').html('未選択です<i class="fa fa-hand-o-down" aria-hidden="true"></i>');
         }
 
-        // URL パラメーターから選択した区名の取得
-        /*function getAreaName() {
-            var initAreaName = appConfig.defaultAreaName;
-            var urlParams = location.search.substring(1).split('&');
-            for(var i=0; urlParams[i]; i++) {
-                var param = urlParams[i].split('=');
-                if(param[0] === 'ku') {
-                    initAreaName = decodeURIComponent(param[1])
-                }
-            }
-            return initAreaName;
-        }*/
-
         // 選択した区の範囲を取得・ズーム
         function getAreaBounds(e) {
             //console.log(e.feature);
-            if(e.feature.properties['CSS_NAME'] === visibleHoikuen[0]) {
+            if(e.feature.properties['CSS_NAME'] === targetNames[0]) {
                 L.geoJson(e.feature, {
                     onEachFeature: function(geojson, l) {
                         map.fitBounds(l.getBounds());
@@ -56,9 +42,6 @@ $(document).ready(function(){
             $(window).resize(function() {
                 attachSearch();
             });
-
-            map.on('overlayadd', addVisibleHoikuen);
-            map.on('overlayremove', removeVisibleHoikuen);
         }
 
         // Web マップ メタデータ読み込み後に実行
@@ -144,14 +127,8 @@ $(document).ready(function(){
             webmap.layers.reverse().map(function(l, i) {
                 console.log(l);
                 if(i !== webmap.layers.length-1) {
-                    if(l.title.match(/区$/) !== null) {
-                        overlayHoikuenMaps[l.title] = l.layer;
-                        if(l.title === visibleHoikuen[0]) {
-                            map.addLayer(l.layer);
-                        }
-                    }
-                    else {
-                        overlayMaps[l.title] = l.layer;
+                    if(l.title === '保育園') {
+                        hoikuenLayer = l.layer;
                     }
                     if(l.title === '保育園（定員）') {
                         capacityLayer = l.layer;
@@ -166,26 +143,25 @@ $(document).ready(function(){
                     }
                 }
             });
-            // 23区別保育園レイヤー コントロール
-            /*var hoikuenLayerControl = L.control.layers({}, overlayHoikuenMaps, {
-                position: 'topright',
-                autoZIndex: false
-            });
-            hoikuenLayerControl.addTo(webmap._map);
-            hoikuenLayerControl._layersLink.innerHTML = '<div>保育園</div>';*/
 
-            setWhereCapacityLayer();
+            setWhere();
         }
 
         // 保育園（定員）レイヤーの属性フィルタリング
-        function setWhereCapacityLayer() {
-            var where = arrayToWhere(visibleHoikuen);
+        function setWhere() {
+            var where = arrayToWhere(targetNames);
             console.log(capacityLayer._layers);
             console.log(where);
             for(key in capacityLayer._layers){
                 if(capacityLayer._layers[key]._cache !== undefined) {
                     console.log(key);
                     capacityLayer._layers[key].setWhere(where);
+                }
+            }
+            for(key in hoikuenLayer._layers){
+                if(hoikuenLayer._layers[key]._cache !== undefined) {
+                    console.log(key);
+                    hoikuenLayer._layers[key].setWhere(where);
                 }
             }
         }
@@ -212,32 +188,6 @@ $(document).ready(function(){
                 });
             }
             return where;
-        }
-
-        // レイヤーの表示イベントリスナ―
-        function addVisibleHoikuen(e) {
-            console.log(e);
-            // 保育園レイヤー判定
-            if(e.name.match(/区$/) !== null) {
-                visibleHoikuen.push(e.name);
-                console.log(visibleHoikuen);
-                setWhereCapacityLayer();
-            }
-        }
-
-        // レイヤーの非表示イベントリスナ―
-        function removeVisibleHoikuen(e) {
-            console.log(e);
-            // 保育園レイヤー判定
-            if(e.name.match(/区$/) !== null) {
-                visibleHoikuen.map(function(v, i) {
-                    if(v === e.name) {
-                        visibleHoikuen.splice(i, 1);
-                    }
-                });
-                console.log(visibleHoikuen);
-                setWhereCapacityLayer();
-            }
         }
 
     });

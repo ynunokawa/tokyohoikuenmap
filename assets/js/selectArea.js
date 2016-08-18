@@ -1,5 +1,6 @@
 var targetAreaName = '';
 var targets = [];
+var targetNames = [];
 var modal;
 
 $(document).ready(function(){
@@ -22,7 +23,9 @@ $(document).ready(function(){
                     var target = $(e.originalEvent.target);
                     var areas = $('div.modal-body > div > div > div > svg > g > path');
                     targets = [];
+                    targetNames = [];
                     targets.push(target);
+                    targetNames.push(e.layer.feature.properties['CSS_NAME']);
                     console.log(target);
                     console.log(areas);
                     areas.attr('class', 'leaflet-interactive');
