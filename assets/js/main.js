@@ -1,5 +1,6 @@
 var visibleHoikuen = [];
 var webmap, map, hoikuenLayer, capacityLayer, tokyo23Layer, basemapLayer, results;
+var currentWhere;
 
 $(document).ready(function(){
     $('#select-fin-btn').on('click', function () {
@@ -95,16 +96,34 @@ $(document).ready(function(){
                 url: hoikuenLayerURL
             });
             countQuery.within(map.getBounds());
+
+            countQuery.where("種別=N'認可保育所' AND " + currentWhere);
+            countQuery.count(function(error, count, response){
+                console.log('認可保育所:', count);
+                $('#ninka-num').text(count);
+            });
+            countQuery.where("種別=N'認証保育所（A型）' AND " + currentWhere);
+            countQuery.count(function(error, count, response){
+                console.log('認証保育所（A型）:', count);
+                $('#ninshoA-num').text(count);
+            });
+            countQuery.where("種別=N'認証保育所（B型）' AND " + currentWhere);
+            countQuery.count(function(error, count, response){
+                console.log('認証保育所（B型）:', count);
+                $('#ninshoB-num').text(count);
+            });
+
             if (map.getZoom() > 14) {
                 var query = L.esri.query({
                     url: hoikuenLayerURL
                 });
                 query.within(map.getBounds());
+                query.where(currentWhere);
                 query.run(function(error, featureCollection, response){
-                    console.log(featureCollection);
                     $('#ninka-list').html('');
                     $('#ninshoA-list').html('');
                     $('#ninshoB-list').html('');
+                    console.log(featureCollection);
                     featureCollection.features.map(function (f, i) {
                         var item;
                         if (f.properties['種別'] === '認可保育所') {
@@ -123,21 +142,11 @@ $(document).ready(function(){
                     });
                 });
             }
-            countQuery.where("種別=N'認可保育所'");
-            countQuery.count(function(error, count, response){
-                console.log('認可保育所:', count);
-                $('#ninka-num').text(count);
-            });
-            countQuery.where("種別=N'認証保育所（A型）'");
-            countQuery.count(function(error, count, response){
-                console.log('認証保育所（A型）:', count);
-                $('#ninshoA-num').text(count);
-            });
-            countQuery.where("種別=N'認証保育所（B型）'");
-            countQuery.count(function(error, count, response){
-                console.log('認証保育所（B型）:', count);
-                $('#ninshoB-num').text(count);
-            });
+            else {
+                $('#ninka-list').html('');
+                $('#ninshoA-list').html('');
+                $('#ninshoB-list').html('');
+            }
         });
     }
 
@@ -235,14 +244,14 @@ $(document).ready(function(){
 
     // 保育園レイヤー＋保育園（定員）レイヤーの属性フィルタリング
     function setWhere() {
-        var where = arrayToWhere(targetNames);
+        currentWhere = arrayToWhere(targetNames);
         console.log(capacityLayer._layers);
-        console.log(where);
+        console.log(currentWhere);
         for(key in capacityLayer._layers){
             if(capacityLayer._layers[key]._cache !== undefined) {
                 console.log(key);
                 // 保育園（定員）レイヤーのフィルタリング
-                capacityLayer._layers[key].setWhere(where);
+                capacityLayer._layers[key].setWhere(currentWhere);
             }
         }
         for(key in hoikuenLayer._layers){
@@ -265,7 +274,7 @@ $(document).ready(function(){
                     }, 100);
                 });
                 // 保育園レイヤーのフィルタリング
-                hoikuenLayer._layers[key].setWhere(where);
+                hoikuenLayer._layers[key].setWhere(currentWhere);
             }
         }
     }
