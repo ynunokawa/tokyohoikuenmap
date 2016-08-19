@@ -38,3 +38,7 @@ div.modal-body > div > div > div > svg > g > path:hover {
     stroke-width: 5;
     fill: #f5646a;
 }
+
+.esri-leaflet-webmap-labels > div {
+    color: #f99498;
+}
