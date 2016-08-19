@@ -50,6 +50,7 @@ $(document).ready(function(){
         initGeocoder();
         initLocate();
         initLayerControl();
+        initList();
         initMapillary(); // **Beta**
         attachSearch();
 
@@ -81,6 +82,63 @@ $(document).ready(function(){
         L.control.zoom({
             position: 'bottomright'
         }).addTo(map);
+    }
+
+    function initList() {
+        var hoikuenLayerURL = 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/保育園23区/FeatureServer/0';
+        map.on('moveend', function (e) {
+            console.log(e);
+            var symbolNinka = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(237,81,81)"></circle></g></svg>';
+            var symbolNinshoA = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(20,158,206)"></circle></g></svg>';
+            var symbolNinshoB = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(167,198,54)"></circle></g></svg>';
+            var countQuery = L.esri.query({
+                url: hoikuenLayerURL
+            });
+            countQuery.within(map.getBounds());
+            if (map.getZoom() > 14) {
+                var query = L.esri.query({
+                    url: hoikuenLayerURL
+                });
+                query.within(map.getBounds());
+                query.run(function(error, featureCollection, response){
+                    console.log(featureCollection);
+                    $('#ninka-list').html('');
+                    $('#ninshoA-list').html('');
+                    $('#ninshoB-list').html('');
+                    featureCollection.features.map(function (f, i) {
+                        var item;
+                        if (f.properties['種別'] === '認可保育所') {
+                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinka + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                            $('#ninka-list').append(item);
+                        } else if (f.properties['種別'] === '認証保育所（A型）') {
+                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinshoA + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                            $('#ninshoA-list').append(item);
+                        } else if (f.properties['種別'] === '認証保育所（B型）') {
+                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinshoB + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                            $('#ninshoB-list').append(item);
+                        }
+                        item.on('click', function () {
+                            map.setView(f.geometry.coordinates.reverse(), 18);
+                        });
+                    });
+                });
+            }
+            countQuery.where("種別=N'認可保育所'");
+            countQuery.count(function(error, count, response){
+                console.log('認可保育所:', count);
+                $('#ninka-num').text(count);
+            });
+            countQuery.where("種別=N'認証保育所（A型）'");
+            countQuery.count(function(error, count, response){
+                console.log('認証保育所（A型）:', count);
+                $('#ninshoA-num').text(count);
+            });
+            countQuery.where("種別=N'認証保育所（B型）'");
+            countQuery.count(function(error, count, response){
+                console.log('認証保育所（B型）:', count);
+                $('#ninshoB-num').text(count);
+            });
+        });
     }
 
     function initLocate() {

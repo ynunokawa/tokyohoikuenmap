@@ -68,6 +68,7 @@
         </a>
         <ul class="dropdown-menu" style="background-color: rgb(245, 100, 106);">
           <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Tokyo保育園マップとは？</a></li>
+          <li><a role="button" data-target="#panelList" aria-haspopup="true"><span class="fa fa-list"></span> 保育園リスト</a></li>
           <li><a class="visible-xs" role="button" data-target="#panelSearch" aria-haspopup="true"><span class="glyphicon glyphicon-search"></span> 場所の検索</a></li>
           <li><a role="button" data-toggle="modal" data-target="#modal-select-area" aria-haspopup="true"><span class="fa fa-refresh"></span> エリアの変更</a></li>
           <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> 背景</a></li>
@@ -126,6 +127,38 @@
             <br>
             <br>さっぽろ保育園マップ（パパマママップ）をforkしています。</p>
             <p>(c) 2016 <a target="_brank" href="http://codefor.tokyo/">Code for Tokyo</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- List Panel -->
+      <div id="panelList" class="panel collapse">
+        <div id="headingList" class="panel-heading" role="tab">
+          <div class="panel-title">
+            <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseList"  aria-expanded="false" aria-controls="collapseList"><span class="fa fa-list" aria-hidden="true"></span><span class="panel-label">保育園リスト</span></a>
+            <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelList"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+          </div>
+        </div>
+        <div id="collapseList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingList">
+          <div class="panel-body calcite-body-expander">
+            <ul class="list-group">
+              <li class="list-group-item">
+                認可保育所 <span id="ninka-num" class="badge">0</span>
+              </li>
+              <span id="ninka-list"></span>
+            </ul>
+            <ul class="list-group">
+              <li class="list-group-item">
+                認証保育所（A型） <span id="ninshoA-num" class="badge">0</span>
+              </li>
+              <span id="ninshoA-list"></span>
+            </ul>
+            <ul class="list-group">
+              <li class="list-group-item">
+                認証保育所（B型） <span id="ninshoB-num" class="badge">0</span>
+              </li>
+              <span id="ninshoB-list"></span>
+            </ul>
           </div>
         </div>
       </div>
@@ -206,6 +239,7 @@
     <link rel="stylesheet" href="assets/css/modal.css" />
     <link rel="stylesheet" href="assets/css/zoom-control.css" />
     <link rel="stylesheet" href="assets/css/popup.css" />
+    <link rel="stylesheet" href="assets/css/list.css" />
     <link rel="stylesheet" href="assets/css/locate.css" />
     <link rel="stylesheet" href="assets/css/geocoder.css" />
     <link rel="stylesheet" href="assets/css/mapillary.css" />
