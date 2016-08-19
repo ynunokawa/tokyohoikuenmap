@@ -25,7 +25,7 @@ $(document).ready(function(){
         }
         console.log(targetAreaLayer);
         for(key in targetAreaLayer._layers){
-            if(targetAreaLayer._layers[key].feature.properties['CSS_NAME'] === targetNames[0]) {
+            if(targetAreaLayer._layers[key].feature.properties[appConfig.tokyo23LayerAreaFieldName] === targetNames[0]) {
                 L.geoJson(targetAreaLayer._layers[key].feature, {
                     onEachFeature: function(geojson, l) {
                         map.fitBounds(l.getBounds());
@@ -86,7 +86,7 @@ $(document).ready(function(){
     }
 
     function initList() {
-        var hoikuenLayerURL = 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/保育園23区/FeatureServer/0';
+        var hoikuenLayerURL = appConfig.hoikuenLayerURL;
         map.on('moveend', function (e) {
             console.log(e);
             var symbolNinka = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-bottom: -3px; margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(237,81,81)"></circle></g></svg>';
@@ -97,17 +97,17 @@ $(document).ready(function(){
             });
             countQuery.within(map.getBounds());
 
-            countQuery.where("種別=N'認可保育所' AND " + currentWhere);
+            countQuery.where(appConfig.typeFieldName + "=N'" + appConfig.typeFieldValue.ninka + "' AND " + currentWhere);
             countQuery.count(function(error, count, response){
                 console.log('認可保育所:', count);
                 $('#ninka-num').text(count);
             });
-            countQuery.where("種別=N'認証保育所（A型）' AND " + currentWhere);
+            countQuery.where(appConfig.typeFieldName + "=N'" + appConfig.typeFieldValue.ninshoA + "' AND " + currentWhere);
             countQuery.count(function(error, count, response){
                 console.log('認証保育所（A型）:', count);
                 $('#ninshoA-num').text(count);
             });
-            countQuery.where("種別=N'認証保育所（B型）' AND " + currentWhere);
+            countQuery.where(appConfig.typeFieldName + "=N'" + appConfig.typeFieldValue.ninshoB + "' AND " + currentWhere);
             countQuery.count(function(error, count, response){
                 console.log('認証保育所（B型）:', count);
                 $('#ninshoB-num').text(count);
@@ -119,7 +119,7 @@ $(document).ready(function(){
                 });
                 query.within(map.getBounds());
                 query.where(currentWhere);
-                query.orderBy('定員', 'DESC');
+                query.orderBy(appConfig.capacityFieldName, 'DESC');
                 query.run(function(error, featureCollection, response){
                     $('#ninka-list').html('');
                     $('#ninshoA-list').html('');
@@ -127,14 +127,14 @@ $(document).ready(function(){
                     console.log(featureCollection);
                     featureCollection.features.map(function (f, i) {
                         var item;
-                        if (f.properties['種別'] === '認可保育所') {
-                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinka + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                        if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninka) {
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinka + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
                             $('#ninka-list').append(item);
-                        } else if (f.properties['種別'] === '認証保育所（A型）') {
-                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinshoA + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                        } else if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninshoA) {
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoA + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
                             $('#ninshoA-list').append(item);
-                        } else if (f.properties['種別'] === '認証保育所（B型）') {
-                            item = $('<a href="#" class="list-group-item">' + f.properties['施設名'] + symbolNinshoB + '<span class="badge teiin">' + f.properties['定員'] + '</span>' + '</a>');
+                        } else if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninshoB) {
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoB + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
                             $('#ninshoB-list').append(item);
                         }
                         item.on('click', function () {
@@ -179,10 +179,10 @@ $(document).ready(function(){
     var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider(); // ArcGIS 住所検索サービス
     /*var hoikuen = L.esri.Geocoding.featureLayerProvider({
         url: 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/CITY/FeatureServer/0',
-        searchFields: ['施設名'],
+        searchFields: [appConfig.nameFieldName],
         label: '保育園',
         formatSuggestion: function(feature){
-        return feature.properties['施設名'];
+        return feature.properties[appConfig.nameFieldName];
         }
     });*/ // it dose not work.. N prefix is required into where clause?
     providers.push(arcgisOnline);
@@ -222,13 +222,13 @@ $(document).ready(function(){
         webmap.layers.reverse().map(function(l, i) {
             console.log(l);
             if(i !== webmap.layers.length-1) {
-                if(l.title === '保育園') {
+                if(l.title === appConfig.hoikuenLayerName) {
                     hoikuenLayer = l.layer;
                 }
-                if(l.title === '保育園（定員）') {
+                if(l.title === appConfig.capacityLayerName) {
                     capacityLayer = l.layer;
                 }
-                if(l.title === '東京都（23区）') {
+                if(l.title === appConfig.tokyo23LayerName) {
                     tokyo23Layer = l.layer;
 
                     /*for(key in tokyo23Layer._layers){
@@ -271,7 +271,7 @@ $(document).ready(function(){
                             'data-toggle': 'tooltip',
                             'data-placement': 'top'
                         });
-                        path.tooltip({ title: f.feature.properties['施設名'], container: 'body' });
+                        path.tooltip({ title: f.feature.properties[appConfig.nameFieldName], container: 'body' });
                     }, 100);
                 });
                 // 保育園レイヤーのフィルタリング
@@ -289,14 +289,14 @@ $(document).ready(function(){
         else {
             arr.map(function(a, i) {
                 if(arr.length === 1) {
-                    where += "市区_1=N'" + a + "'";
+                    where += appConfig.hoikuenLayerAreaFieldName + "=N'" + a + "'";
                 }
                 else {
                     if(arr.length === i+1) {
-                        where += "(市区_1=N'" + a + "')";
+                        where += "(" + appConfig.hoikuenLayerAreaFieldName + "=N'" + a + "')";
                     }
                     else {
-                        where += "(市区_1=N'" + a + "') OR ";
+                        where += "(" + appConfig.hoikuenLayerAreaFieldName + "=N'" + a + "') OR ";
                     }
                 }
             });
