@@ -119,6 +119,7 @@ $(document).ready(function(){
                 });
                 query.within(map.getBounds());
                 query.where(currentWhere);
+                query.orderBy('定員', 'DESC');
                 query.run(function(error, featureCollection, response){
                     $('#ninka-list').html('');
                     $('#ninshoA-list').html('');
