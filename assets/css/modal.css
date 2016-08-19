@@ -23,7 +23,8 @@
 
 #area-map {
     height: 300px;
-    background: #fef8f4;
+    /*background: #fef8f4;*/
+    background: url("images/bg.png") repeat;
 }
 
 div.modal-body > div > div > div > svg > g > path:hover {
