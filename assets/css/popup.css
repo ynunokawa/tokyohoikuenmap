@@ -35,4 +35,5 @@
 .leaflet-container a.leaflet-popup-close-button {
     margin: 2px 8px 0 0;
     font: 24px/22px Tahoma, Verdana, sans-serif;
+    color: #fff;
 }

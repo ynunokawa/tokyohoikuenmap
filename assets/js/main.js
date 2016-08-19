@@ -89,9 +89,9 @@ $(document).ready(function(){
         var hoikuenLayerURL = 'http://services3.arcgis.com/iH4Iz7CEdh5xTJYb/arcgis/rest/services/保育園23区/FeatureServer/0';
         map.on('moveend', function (e) {
             console.log(e);
-            var symbolNinka = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(237,81,81)"></circle></g></svg>';
-            var symbolNinshoA = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(20,158,206)"></circle></g></svg>';
-            var symbolNinshoB = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(167,198,54)"></circle></g></svg>';
+            var symbolNinka = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-bottom: -3px; margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(237,81,81)"></circle></g></svg>';
+            var symbolNinshoA = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-bottom: -3px; margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(20,158,206)"></circle></g></svg>';
+            var symbolNinshoB = ' <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" style="margin-bottom: -3px; margin-top: 0px; margin-left: 0px;"><g><circle cx="7" cy="7" r="5" stroke="#fff" stroke-width="3" fill="rgb(167,198,54)"></circle></g></svg>';
             var countQuery = L.esri.query({
                 url: hoikuenLayerURL
             });
