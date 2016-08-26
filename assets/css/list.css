@@ -21,6 +21,11 @@
     color: #ffffff;
 }
 
+.distance {
+    color: #faacaf;
+    margin-left: 7px;
+}
+
 .list-group-item {
     border: 1px solid #faacaf;
     background-color: rgba(255,255,255,.95);
@@ -44,5 +49,5 @@ a.list-group-item:hover {
 }
 
 a.list-group-item > svg {
-    
+
 }

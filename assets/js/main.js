@@ -127,14 +127,21 @@ $(document).ready(function(){
                     console.log(featureCollection);
                     featureCollection.features.map(function (f, i) {
                         var item;
+                        var dis = '';
+                        results.eachLayer(function (layer) {
+                          console.log(f);
+                          console.log(layer);
+                          console.log(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]).distanceTo(layer._latlng));
+                          dis = Math.round(L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]).distanceTo(layer._latlng)) + 'm';
+                        });
                         if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninka) {
-                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinka + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinka + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span><span class="distance">' + dis + '</span></a>');
                             $('#ninka-list').append(item);
                         } else if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninshoA) {
-                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoA + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoA + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span><span class="distance">' + dis + '</span></a>');
                             $('#ninshoA-list').append(item);
                         } else if (f.properties[appConfig.typeFieldName] === appConfig.typeFieldValue.ninshoB) {
-                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoB + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span>' + '</a>');
+                            item = $('<a href="#" class="list-group-item">' + f.properties[appConfig.nameFieldName] + symbolNinshoB + '<span class="badge teiin">' + f.properties[appConfig.capacityFieldName] + '</span><span class="distance">' + dis + '</span></a>');
                             $('#ninshoB-list').append(item);
                         }
                         item.on('click', function () {
